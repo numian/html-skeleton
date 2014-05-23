@@ -10,6 +10,8 @@
         /* calls automagically the template init function */
         onReady: function() {
             
+            this.initCommon();
+            
             if(this.template) {
             
                 var init_function = 'init' + this.template[0].toUpperCase() + this.template.substring(1);
@@ -24,6 +26,11 @@
             
         },
         
+        
+        /* initializes shared components  */
+        initCommon: function() {
+            console.log('common init');
+        },
         
         /* Template specific load functions */
         initHomepage: function() {
