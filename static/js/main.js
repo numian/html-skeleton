@@ -7,6 +7,13 @@
         
         template: $(document.body).data('template'),
         
+        /* initialize before onReady */
+        init: function() {
+        
+            $(function() { APP.onReady(); });
+            $(window).load(function() { APP.onLoad(); });
+        },
+        
         /* calls automagically the template init function */
         onReady: function() {
             
@@ -14,14 +21,22 @@
             
             if(this.template) {
             
-                var init_function = 'init' + this.template[0].toUpperCase() + this.template.substring(1);
-                
-                if(this[init_function]) {
-                    this[init_function]();
+                var template_name = this.template.toLowerCase().replace(/\W/g, ' ').split(' '),
+                    function_name = '';
+
+                for(var i = 0; i < template_name.length; i++) {
+                    function_name += template_name[i][0].toUpperCase() + template_name[i].substring(1);
+                }
+
+                function_name = 'init'+function_name;
+
+                if(this[function_name]) {
+                    this[function_name]();
                 }
             }
         },
     
+        /* window.onload */
         onLoad: function() {
             
         },
@@ -36,7 +51,7 @@
         initHomepage: function() {
             console.log('homepage goodies');
         },
-    
+        
         initNews: function() {
             console.log('news goodies');
         }
@@ -91,7 +106,6 @@
     
     
     /* Init awesome stuff */
-    $(function() { APP.onReady(); });
-    $(window).load(function() { APP.onLoad(); });
+    APP.init();
     
 })();
