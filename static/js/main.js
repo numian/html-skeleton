@@ -9,7 +9,6 @@
         
         /* initialize before onReady */
         init: function() {
-        
             $(function() { APP.onReady(); });
             $(window).load(function() { APP.onLoad(); });
         },
@@ -21,17 +20,18 @@
             
             if(this.template) {
             
-                var template_name = this.template.toLowerCase().replace(/\W/g, ' ').split(' '),
-                    function_name = '';
+                var template_name  = this.template.toLowerCase().replace(/(\W|_)/g, ' ').split(' ');
+                this.init_function = '';
 
                 for(var i = 0; i < template_name.length; i++) {
-                    function_name += template_name[i][0].toUpperCase() + template_name[i].substring(1);
+                    this.init_function += template_name[i][0].toUpperCase() + template_name[i].substring(1);
                 }
 
-                function_name = 'init'+function_name;
-
-                if(this[function_name]) {
-                    this[function_name]();
+                this.load_function = 'load' + this.init_function;
+                this.init_function = 'init' + this.init_function;
+                
+                if(this[this.init_function]) {
+                    this[this.init_function]();
                 }
             }
         },
